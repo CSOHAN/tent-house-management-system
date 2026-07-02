@@ -1,0 +1,20 @@
+# IntelliJ
+.idea/workspace.xml
+*.iml
+
+# Build
+target/
+out/
+
+# Java
+*.class
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
