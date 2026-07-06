@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" migrateIndexesAndConstraints="true">
+    <option name="migrateIndexesAndConstraints" value="true" />
+    <option name="reLastEntityCreationPackage" value="backend/tent-house-management/src/main/java/com/thms/tenthouse/returns/entity" />
+    <option name="reverseEngineeringLastDbConnectionId" value="0c8b50c5-abc9-4f8e-af26-f55a4c080c9c" />
+  </component>
+</project>
