@@ -50,16 +50,16 @@ public class ReturnItem {
     private Integer returnedQuantity;
 
     @Column(name = "missing_quantity")
-    private Integer missingQuantity;
+    private Integer missingQuantity = 0;
 
     @Column(name = "damaged_quantity")
-    private Integer damagedQuantity;
+    private Integer damagedQuantity = 0;
 
-    @Column(name = "damage_charge", precision = 10, scale = 2)
-    private BigDecimal damageCharge;
+    @Column(name = "damage_charge", precision = 10, scale = 2, nullable = false)
+    private BigDecimal damageCharge = BigDecimal.ZERO;
 
-    @Column(name = "missing_charge", precision = 10, scale = 2)
-    private BigDecimal missingCharge;
+    @Column(name = "missing_charge", precision = 10, scale = 2, nullable = false)
+    private BigDecimal missingCharge = BigDecimal.ZERO;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

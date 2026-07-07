@@ -1,5 +1,6 @@
 package com.thms.tenthouse.customer.entity;
 
+import com.thms.tenthouse.booking.entity.Booking;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +18,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = "bookings")
 @Table(
     name = "customers",
     uniqueConstraints = {
@@ -53,5 +56,9 @@ public class Customer {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Booking> bookings = new ArrayList<>();
 
 }

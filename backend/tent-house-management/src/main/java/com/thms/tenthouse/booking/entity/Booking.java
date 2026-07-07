@@ -1,6 +1,7 @@
 package com.thms.tenthouse.booking.entity;
 
 import com.thms.tenthouse.customer.entity.Customer;
+import com.thms.tenthouse.returns.entity.Return;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,13 +12,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "customer")
+@ToString(exclude = {"customer", "bookingItems", "returnEntity"})
 @Entity
 @Table(
     name = "bookings",
@@ -94,6 +97,16 @@ public class Booking {
     @Size(max = 20)
     @Column(name = "payment_status", length = 20)
     private String paymentStatus;
+
+    @OneToMany(
+        mappedBy = "booking",
+        fetch = FetchType.LAZY
+    )
+    @Builder.Default
+    private List<BookingItem> bookingItems = new ArrayList<>();
+
+    @OneToOne(mappedBy = "booking")
+    private Return returnEntity;
 
 
 }

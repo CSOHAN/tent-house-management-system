@@ -11,6 +11,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +20,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "booking")
+@ToString(exclude = {"booking", "returnItems"})
 @Table(name = "returns", indexes = {@Index(name = "idx_return_booking",
         columnList = "booking_id")})
 public class Return {
@@ -28,8 +30,13 @@ public class Return {
     private Long returnId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "booking_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+        name = "booking_id",
+        nullable = false,
+        unique = true,
+        foreignKey = @ForeignKey(name = "fk_return_booking")
+    )
     private Booking booking;
 
     @NotNull
@@ -50,5 +57,10 @@ public class Return {
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
-
+    @OneToMany(
+        mappedBy = "returnEntity",
+        fetch = FetchType.LAZY
+    )
+    @Builder.Default
+    private List<ReturnItem> returnItems = new ArrayList<>();
 }

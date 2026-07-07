@@ -1,5 +1,7 @@
 package com.thms.tenthouse.inventory.entity;
 
+import com.thms.tenthouse.booking.entity.BookingItem;
+import com.thms.tenthouse.returns.entity.ReturnItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,6 +12,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,7 +21,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"bookingItems", "returnItems"})
 @Table(name = "inventory_items", uniqueConstraints = {@UniqueConstraint(name = "uk_inventory_item_name",
         columnNames = {"item_name"})})
 public class InventoryItem {
@@ -51,5 +55,18 @@ public class InventoryItem {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @OneToMany(
+        mappedBy = "inventoryItem",
+        fetch = FetchType.LAZY
+    )
+    @Builder.Default
+    private List<BookingItem> bookingItems = new ArrayList<>();
+
+    @OneToMany(
+        mappedBy = "inventoryItem",
+        fetch = FetchType.LAZY
+    )
+    @Builder.Default
+    private List<ReturnItem> returnItems = new ArrayList<>();
 
 }
