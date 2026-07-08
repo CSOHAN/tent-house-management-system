@@ -1,5 +1,7 @@
 package com.thms.tenthouse.customer.service;
 
+import com.thms.tenthouse.common.exceptions.CustomerAlreadyExistsException;
+import com.thms.tenthouse.common.exceptions.CustomerNotFoundException;
 import com.thms.tenthouse.customer.dto.CustomerRequestDto;
 import com.thms.tenthouse.customer.dto.CustomerResponseDto;
 import com.thms.tenthouse.customer.entity.Customer;
@@ -48,10 +50,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponseDto updateCustomer(Long id, CustomerRequestDto requestDto) {
+    public CustomerResponseDto updateCustomer(Long id,
+                                              CustomerRequestDto requestDto) {
 
         Customer customer = customerRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Customer not found"));
+            .orElseThrow(() ->
+                new CustomerNotFoundException("Customer not found"));
+
+        // Check if mobile number already belongs to another customer
+        Customer existingCustomer =
+            customerRepository.findByMobileNumber(
+                    requestDto.getMobileNumber())
+                .orElse(null);
+
+        if (existingCustomer != null &&
+            !existingCustomer.getCustomerId().equals(id)) {
+            throw new CustomerAlreadyExistsException(
+                "Customer with mobile number already exists");
+        }
 
         customer.setName(requestDto.getName());
         customer.setMobileNumber(requestDto.getMobileNumber());
@@ -98,5 +114,16 @@ public class CustomerServiceImpl implements CustomerService {
             .createdAt(customer.getCreatedAt())
             .updatedAt(customer.getUpdatedAt())
             .build();
+    }
+
+    @Override
+    public List<CustomerResponseDto>
+    searchCustomersByName(String name) {
+
+        return customerRepository
+            .findByNameContainingIgnoreCase(name)
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
     }
 }

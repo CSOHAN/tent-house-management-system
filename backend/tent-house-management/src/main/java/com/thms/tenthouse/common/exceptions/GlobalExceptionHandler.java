@@ -30,4 +30,24 @@ public class GlobalExceptionHandler {
             errors,
             HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    public ResponseEntity<String>
+    handleCustomerAlreadyExistsException(
+        CustomerAlreadyExistsException ex) {
+
+        return new ResponseEntity<>(
+            ex.getMessage(),
+            HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<String>
+    handleCustomerNotFoundException(
+        CustomerNotFoundException ex) {
+
+        return new ResponseEntity<>(
+            ex.getMessage(),
+            HttpStatus.NOT_FOUND);
+    }
 }

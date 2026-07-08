@@ -16,4 +16,6 @@ public interface CustomerService {CustomerResponseDto createCustomer(CustomerReq
     void deleteCustomer(Long id);
 
     CustomerResponseDto getCustomerByMobileNumber(String mobileNumber);
+
+    List<CustomerResponseDto> searchCustomersByName(String name);
 }
