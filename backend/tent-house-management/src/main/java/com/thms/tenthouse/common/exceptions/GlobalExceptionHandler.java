@@ -50,4 +50,14 @@ public class GlobalExceptionHandler {
             ex.getMessage(),
             HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(BookingNotFoundException.class)
+    public ResponseEntity<String>
+    handleBookingNotFoundException(
+        BookingNotFoundException ex) {
+
+        return new ResponseEntity<>(
+            ex.getMessage(),
+            HttpStatus.NOT_FOUND);
+    }
 }

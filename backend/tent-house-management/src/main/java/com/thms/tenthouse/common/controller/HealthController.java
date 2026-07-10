@@ -1,4 +1,4 @@
-package com.thms.tenthouse.common.exceptions;
+package com.thms.tenthouse.common.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
