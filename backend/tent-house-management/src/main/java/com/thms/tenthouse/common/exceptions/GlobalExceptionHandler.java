@@ -60,4 +60,15 @@ public class GlobalExceptionHandler {
             ex.getMessage(),
             HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(
+        CustomerDeleteNotAllowedException.class)
+    public ResponseEntity<String>
+    handleCustomerDeleteNotAllowedException(
+        CustomerDeleteNotAllowedException ex) {
+
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(ex.getMessage());
+    }
 }

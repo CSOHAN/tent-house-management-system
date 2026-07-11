@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>THMS - Customers</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Customer Management</h2>
+
+    <!-- Success / Error Messages -->
+    <div id="messageBox"></div>
+
+    <div class="row">
+
+        <!-- Add Customer -->
+        <div class="col-lg-7">
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+                    Add Customer
+                </div>
+
+                <div class="card-body">
+
+                    <form id="customerForm">
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Name
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Mobile Number
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="mobileNumber"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Place
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="place"
+                                required>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+                            Save Customer
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Search Customer -->
+        <div class="col-lg-5">
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+                    Search Customer
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Search By Name
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="searchName">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Search By Mobile
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="searchMobile">
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="searchCustomers()">
+                            Search
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="resetSearch()">
+                            Reset
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- View / Hide Customers Button -->
+    <button
+        id="toggleCustomerBtn"
+        class="btn btn-secondary mb-3"
+        onclick="toggleCustomerList()">
+
+        📋 View Customers
+
+    </button>
+
+    <!-- Customer List -->
+    <div
+        class="card"
+        id="customerListCard"
+        style="display: none;">
+
+        <div class="card-header">
+            Customer List
+        </div>
+
+        <div class="card-body">
+
+            <table
+                class="table table-bordered table-striped">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Place</th>
+                </tr>
+                </thead>
+
+                <tbody id="customerTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/customer.js"></script>
+
+</body>
+</html>
