@@ -1,6 +1,8 @@
 package com.thms.tenthouse.customer.service;
 
+import com.thms.tenthouse.booking.repository.BookingRepository;
 import com.thms.tenthouse.common.exceptions.CustomerAlreadyExistsException;
+import com.thms.tenthouse.common.exceptions.CustomerDeleteNotAllowedException;
 import com.thms.tenthouse.common.exceptions.CustomerNotFoundException;
 import com.thms.tenthouse.customer.dto.CustomerRequestDto;
 import com.thms.tenthouse.customer.dto.CustomerResponseDto;
@@ -16,9 +18,20 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final BookingRepository bookingRepository;
 
     @Override
-    public CustomerResponseDto createCustomer(CustomerRequestDto requestDto) {
+    public CustomerResponseDto createCustomer(
+        CustomerRequestDto requestDto) {
+
+        if (customerRepository.findByMobileNumber(
+            requestDto.getMobileNumber()).isPresent()) {
+
+            throw new CustomerAlreadyExistsException(
+                "Customer with mobile number "
+                    + requestDto.getMobileNumber()
+                    + " already exists");
+        }
 
         Customer customer = Customer.builder()
             .name(requestDto.getName())
@@ -26,7 +39,8 @@ public class CustomerServiceImpl implements CustomerService {
             .place(requestDto.getPlace())
             .build();
 
-        Customer savedCustomer = customerRepository.save(customer);
+        Customer savedCustomer =
+            customerRepository.save(customer);
 
         return mapToResponse(savedCustomer);
     }
@@ -80,6 +94,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(Long id) {
+        Customer customer =
+            customerRepository.findById(id)
+                .orElseThrow(() ->
+                    new CustomerNotFoundException(
+                        "Customer not found with id : " + id));
+
+        boolean bookingExists =
+            bookingRepository
+                .existsByCustomerCustomerId(id);
+
+        if (bookingExists) {
+            throw new CustomerDeleteNotAllowedException(
+                "Customer cannot be deleted because bookings exist.");
+        }
 
         customerRepository.deleteById(id);
     }
